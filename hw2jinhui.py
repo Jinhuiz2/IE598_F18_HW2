@@ -1,11 +1,11 @@
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-from matplotlib.colors import ListedColormap
 import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import StandardScaler
-import numpy as np
 from pydotplus import graph_from_dot_data
 from sklearn.tree import export_graphviz
 
@@ -52,19 +52,13 @@ def plot_decision_regions(X, y, classifier, test_idx=None, resolution=0.02):
     plt.ylim(xx2.min(), xx2.max())
     
     for idx, cl in enumerate(np.unique(y)):
-        plt.scatter(x=X[y == cl, 0], y=X[y == cl, 1],
-                    alpha=0.8, c=colors[idx],
-                    marker=markers[idx], label=cl,
-                    edgecolor='black')
+        plt.scatter(x=X[y == cl, 0], y=X[y == cl, 1],alpha=0.8, c=colors[idx],marker=markers[idx], label=cl,edgecolor='black')
         
     # highlight test samples
     if test_idx:
         # plot all samples
         X_test, y_test = X[test_idx, :], y[test_idx]
-        plt.scatter(X_test[:, 0], X_test[:, 1],
-                    c='', edgecolor='black', alpha=1.0,
-                    linewidth=1, marker='o',
-                    s=100, label='test set')
+        plt.scatter(X_test[:, 0], X_test[:, 1],c='', edgecolor='black', alpha=1.0,linewidth=1, marker='o',s=100, label='test set')
         
     
 #tree
@@ -72,10 +66,7 @@ tree = DecisionTreeClassifier(criterion='gini',max_depth=4,random_state=1)
 tree.fit(X_train, y_train)
 X_combined = np.vstack((X_train, X_test))
 y_combined = np.hstack((y_train, y_test))
-plot_decision_regions(X=X_combined_std,
-                      y=y_combined,
-                      classifier=tree,
-                      test_idx=range(105, 150))
+plot_decision_regions(X=X_combined_std,y=y_combined,classifier=tree, test_idx=range(105, 150))
 
 plt.xlabel('petal length [cm]')
 plt.ylabel('petal width [cm]')
@@ -88,7 +79,7 @@ graph.write_png('tree.png')
 
 
 
-#KNN
+
 knn = KNeighborsClassifier(n_neighbors=5, p=2, metric='minkowski')
 knn.fit(X_train_std, y_train)
 plot_decision_regions(X_combined_std, y_combined, classifier=knn, test_idx=range(105,150))

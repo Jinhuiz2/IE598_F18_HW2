@@ -8,6 +8,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import StandardScaler
 from pydotplus import graph_from_dot_data
 from sklearn.tree import export_graphviz
+from sklearn import metrics
 
 
 
@@ -97,6 +98,9 @@ for k in k_range:
 	knn.fit(X_train, y_train)
 	y_pred = knn.predict(X_test)
 	scores.append(metrics.accuracy_score(y_test,y_pred))
+
+for k in k_range:    
+	print("k =",k,' ',"Accuracy =",scores[k-1])
     
 
 print('My name is {Jinhui Zhang}')
